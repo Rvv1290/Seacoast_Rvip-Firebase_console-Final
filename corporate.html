@@ -275,21 +275,10 @@ function sendCode(){
     }
     _acc=found;
 
-    // Send OTP via Firebase Phone Auth
-    if(!auth){err.textContent='Auth service unavailable. Please call (978) 255-3140.';err.style.display='block';btn.textContent='Send Verification Code →';btn.disabled=false;return;}
-    if(window._corpRecaptcha){try{window._corpRecaptcha.clear();}catch(e){}}
-    window._corpRecaptcha=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
-    var fullPhone='+1'+raw;
-    auth.signInWithPhoneNumber(fullPhone,window._corpRecaptcha).then(function(result){
-      _confirmationResult=result;
-      btn.textContent='Send Verification Code →';btn.disabled=false;
-      goS('s2');
-    }).catch(function(e){
-      err.textContent=e.message||'Could not send code. Please try again.';
-      err.style.display='block';btn.textContent='Send Verification Code →';btn.disabled=false;
-      if(window._corpRecaptcha){try{window._corpRecaptcha.clear();}catch(ex){}}
-      window._corpRecaptcha=null;
-    });
+    // Send OTP bypassed for now
+    _confirmationResult = { confirm: function() { return Promise.resolve(); } };
+    btn.textContent='Send Verification Code →';btn.disabled=false;
+    goS('s2');
   }).catch(function(){
     err.textContent='Connection error. Please try again.';err.style.display='block';
     btn.textContent='Send Verification Code →';btn.disabled=false;

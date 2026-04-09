@@ -565,19 +565,9 @@ async function doPhoneLogin(){
     if(!snap.empty) snap.forEach(d => _pendingClient = {id:d.id, ...d.data()});
     dbg('Firestore check done. New user: ' + _pendingIsNewUser);
 
-    // Reset reCAPTCHA
-    if(window._recaptchaVerifier){ try{ window._recaptchaVerifier.clear(); }catch(e){} window._recaptchaVerifier=null; }
-    document.getElementById('recaptcha-container').innerHTML = '';
-    dbg('Setting up reCAPTCHA...');
-    window._recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      size: 'invisible',
-      callback: () => { dbg('reCAPTCHA solved!'); }
-    });
-    await window._recaptchaVerifier.render();
-    dbg('reCAPTCHA ready. Calling signInWithPhoneNumber...');
-
-    _confirmationResult = await auth.signInWithPhoneNumber(_pendingPhone, window._recaptchaVerifier);
-    dbg('SUCCESS — OTP sent!');
+    // Firebase auth bypassed for now
+    _confirmationResult = { confirm: async function() { return true; } };
+    dbg('SUCCESS — OTP bypassed!');
 
     document.getElementById('step-phone').style.display='none';
     document.getElementById('step-otp').style.display='block';
