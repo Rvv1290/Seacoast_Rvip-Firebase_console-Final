@@ -16,8 +16,9 @@
   try{
     if(!firebase.apps.length)firebase.initializeApp(c);
     window._db=firebase.firestore();
-    window._auth=firebase.auth();
-    window._auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    // window._auth=firebase.auth();
+    // window._auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    window._auth=null;
   }catch(e){window._db=null;window._auth=null;}
 })();
 </script>
